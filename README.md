@@ -1,7 +1,7 @@
 # cgtag-public-data-registry
 
 A catalog of **annotation source/release configs** for [cgtag](https://github.com/compgenlab/cgtag).
-It holds *configurations, not data* — `cgtag sync` downloads the actual files.
+It holds *configurations, not data* — `cgtag download` fetches the actual files.
 
 ## Layout
 
@@ -17,15 +17,18 @@ points at its URL; entry `file` paths resolve relative to it.
 ## Consuming it
 
 ```sh
-cgtag registry list                          # uses this registry by default
-cgtag registry add-source 2026-06 clinvar    # merge a source's config into a local release
-cgtag registry pull-release 2026-06          # pull a whole release
+cgtag registry list                                # uses this registry by default
+cgtag release add <release-name>                   # create a local release first
+cgtag registry add-source <release-name> clinvar   # merge a source's config into it
+cgtag registry pull-release <release-name>         # or pull a whole release
 ```
 
 ## Contributing a source
 
-Run `cgtag registry submit <release> <source>` (needs a `public_repo` `GITHUB_TOKEN`),
-or open an issue with the **`source-submission`** label and the source config in a
-` ```toml ` block. The [issue-to-pr workflow](.github/workflows/issue-to-pr.yml)
-parses it, writes `sources/<name>@<version>.toml`, adds the `registry.toml` entry,
-and opens a PR closing the issue — a maintainer reviews and merges.
+Run `cgtag registry submit <release-name> <source>` (needs a `public_repo`
+`GITHUB_TOKEN`), or open an issue with the **`source-submission`** label and the source
+config in a ` ```toml ` block. A submitted source **must declare a `checksum`**
+(`md5`/`sha1`/`sha256`) for its data file. The
+[issue-to-pr workflow](.github/workflows/issue-to-pr.yml) parses it, writes
+`sources/<name>@<version>.toml`, adds the `registry.toml` entry, and opens a PR closing
+the issue — a maintainer reviews and merges.
