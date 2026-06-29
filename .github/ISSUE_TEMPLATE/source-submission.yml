@@ -25,6 +25,7 @@ body:
         format    = "vcf"
         url       = "https://.../clinvar.vcf.gz"
         index_url = "https://.../clinvar.vcf.gz.tbi"
+        checksum  = "md5:<hex-or-url>"   # required (md5|sha1|sha256)
 
         [[annotations]]
         key         = "clinvar_sig"
@@ -32,5 +33,13 @@ body:
         field       = "CLNSIG"
         type        = "categorical"
         description = "ClinVar clinical significance"
+    validations:
+      required: true
+  - type: input
+    id: checksum
+    attributes:
+      label: Data file checksum (MD5/SHA1/SHA256)
+      description: Required — the source data file's digest, as `<algo>:<hex>` or a checksum URL.
+      placeholder: "md5:d41d8cd98f00b204e9800998ecf8427e"
     validations:
       required: true
