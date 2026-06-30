@@ -35,13 +35,22 @@ the issue — a maintainer reviews and merges.
 
 ## Setup (one-time, for maintainers)
 
-The issue-to-pr workflow opens its PR with the default `GITHUB_TOKEN`, which requires
-the repo setting **"Allow GitHub Actions to create and approve pull requests"** to be
-on. Without it the workflow fails with `GitHub Actions is not permitted to create or
-approve pull requests` (the branch is pushed but no PR is opened). Enable it once:
+GitHub blocks the default `GITHUB_TOKEN` from creating pull requests unless *"Allow
+GitHub Actions to create and approve pull requests"* is enabled — and an org can
+forbid it org-wide, in which case the repo setting can't override it (the workflow
+fails with `GitHub Actions is not permitted to create or approve pull requests`: the
+branch is pushed but no PR is opened).
 
-- UI: **Settings → Actions → General → Workflow permissions** → check *Allow GitHub
-  Actions to create and approve pull requests* → **Save**, or
-- CLI: `gh api -X PUT repos/<owner>/<repo>/actions/permissions/workflow -F default_workflow_permissions=read -F can_approve_pull_request_reviews=true`
+To avoid touching org-wide policy, the workflow opens the PR with a **fine-grained
+PAT** instead of `GITHUB_TOKEN` (a user token isn't subject to that restriction).
+Configure it once:
 
-(If the **organization** enforces this off, an org admin must allow it first.)
+1. Create a **fine-grained personal access token** scoped to this repo with
+   permissions *Pull requests: read & write* and *Contents: read & write*.
+2. Add it as a repo secret named **`REGISTRY_PR_SECRET`** (Settings → Secrets and
+   variables → Actions → New repository secret).
+
+The workflow passes `token: ${{ secrets.REGISTRY_PR_SECRET }}` to
+`create-pull-request`. (Alternatively, if you control the org and are fine loosening
+it, enable the org-level "Allow GitHub Actions to create and approve pull requests"
+and drop the `token:` line.)
