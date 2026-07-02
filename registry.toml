@@ -37,3 +37,10 @@ version     = "20250202"
 assembly    = "GRCh38"
 file        = "sources/ClinVar/20250202/ClinVar-20250202.toml"
 description = ""
+
+[[sources]]
+name        = "gnomAD"
+version     = "4.1.0"
+assembly    = "GRCh38"
+file        = "sources/gnomAD/4.1.0/gnomAD-4.1.0.toml"
+description = ""
