@@ -2,6 +2,7 @@
   type = "tool"
   name = "vep"
   version = "113"
+  assembly = "GRCh38"
   format = "vcf"
   requires = ["python3"]
   image = "docker://ensemblorg/ensembl-vep:release_113.3"
