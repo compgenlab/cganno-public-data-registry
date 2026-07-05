@@ -8,7 +8,7 @@
   image = "docker://ensemblorg/ensembl-vep:release_113.3"
   engine = "apptainer"
   output = "vep.vcf.gz"
-  runner = "local"
+  threads = 4
 
   [[sources.setup]]
     name = "install"
