@@ -194,5 +194,5 @@
 
   [[sources.annotations]]
     name = "REVEL"
-    field = "8"
+    field = "7"
     type = "numeric"
